@@ -1,0 +1,369 @@
+---
+title: "Proyecto R"
+author: "LUIS DIEGO DEL RÍO SOTO"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## **Red de Meteorología y Radiación Solar (REDMET)**
+#### **Fuente:** Portal de Datos Abiertos 
+#### **Última Actualización:** 28 de junio 2023
+#### **Apartado: ** Datos completos de la Red de Meteorología y Radiación Solar (REDMET) de 2022
+#### **Liga:** https://datos.cdmx.gob.mx/dataset/redmet 
+
+
+
+### **Diccionario de datos**
+
+ * Temperatura (TMP)
+ * Humedad relativa (RH)
+ * Dirección del viento (WDR) 
+ * Velocidad del viento (WSP)
+
+
+---
+
+### **Breve vistazo de la información**
+#### 1.- Parte superior.
+```{r}
+#install.packages("ggplot2")
+#install.packages("MASS")
+
+redmet <- read.csv("redmet.csv")
+head(redmet)
+```
+#### 2.- Parte inferior.
+```{r}
+tail(redmet)
+```
+
+#### Moda de temperatura durante el año 2022
+```{r}
+  moda<-function(datos){
+    return(sort(table(datos),decreasing = T)[1])
+  }
+ moda(redmet$TMP)
+ barplot(table(redmet$TMP))
+```
+
+#### Media de temperatura durante el año 2022
+```{r}
+temp<-redmet$TMP[!is.nan(redmet$TMP)]  
+ median(sort(temp))
+```
+#### Quartiles de temperatura durante el año 2022
+```{r}
+ quantile(temp)
+```
+#### boxplot de temperatura durante el año 2022
+```{r}
+boxplot(temp)
+
+summary(temp)
+```
+
+#### Moda de humedad relativa durante el año 2022
+```{r}
+  moda<-function(datos){
+    return(sort(table(datos),decreasing = T)[1])
+  }
+ moda(redmet$RH)
+ barplot(table(redmet$RH))
+```
+
+#### Media de humedad relativa durante el año 2022
+```{r}
+humedadRela<-redmet$RH[!is.nan(redmet$RH)]  
+ median(sort(humedadRela))
+```
+#### Quartiles de humedad relativa durante el año 2022
+```{r}
+ quantile(humedadRela)
+```
+#### boxplot de humedad relativa durante el año 2022
+```{r}
+boxplot(humedadRela)
+
+summary(humedadRela)
+```
+
+### Análisis de temperatura y humedad relativa agrupado por mes
+Con el objetivo de comprender las variaciones mensuales y sus posibles correlaciones.
+La agrupación mensual de los datos permite una visión más clara de las tendencias a lo largo del año.
+
+```{r}
+
+Enero      <-redmet[redmet$fecha >='2022-01-01' & redmet$fecha < '2022-02-01',]
+febrero    <-redmet[redmet$fecha >='2022-02-01' & redmet$fecha < '2022-03-01',]
+marzo      <-redmet[redmet$fecha >='2022-03-01' & redmet$fecha < '2022-04-01',]
+abril      <-redmet[redmet$fecha >='2022-04-01' & redmet$fecha < '2022-05-01',]
+mayo       <-redmet[redmet$fecha >='2022-05-01' & redmet$fecha < '2022-06-01',]
+junio      <-redmet[redmet$fecha >='2022-06-01' & redmet$fecha < '2022-07-01',]
+julio      <-redmet[redmet$fecha >='2022-07-01' & redmet$fecha < '2022-08-01',]
+agosto     <-redmet[redmet$fecha >='2022-08-01' & redmet$fecha < '2022-09-01',]
+septiembre <-redmet[redmet$fecha >='2022-09-01' & redmet$fecha < '2022-10-01',]
+octubre    <-redmet[redmet$fecha >='2022-10-01' & redmet$fecha < '2022-11-01',]
+noviembre  <-redmet[redmet$fecha >='2022-11-01' & redmet$fecha < '2022-12-01',]
+diciembre  <-redmet[redmet$fecha >='2022-12-01' & redmet$fecha < '2023-01-01',]
+
+  meses<-c("Enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre")
+  enero_tem<-Enero$TMP[!is.nan(Enero$TMP)]
+  febrero_tem<-febrero$TMP[!is.nan(febrero$TMP)]
+  marzo_tem<-marzo$TMP[!is.nan(marzo$TMP)]
+  abril_tem<-abril$TMP[!is.nan(abril$TMP)]
+  mayo_tem<-mayo$TMP[!is.nan(mayo$TMP)]
+  junio_tem<-junio$TMP[!is.nan(junio$TMP)]
+  julio_tem<-julio$TMP[!is.nan(julio$TMP)]
+  agosto_tem<-agosto$TMP[!is.nan(agosto$TMP)]
+  septiembre_tem<-septiembre$TMP[!is.nan(septiembre$TMP)]
+  octubre_tem<-octubre$TMP[!is.nan(octubre$TMP)]
+  noviembre_tem<-noviembre$TMP[!is.nan(noviembre$TMP)]
+  diciembre_tem<-diciembre$TMP[!is.nan(diciembre$TMP)]
+  
+  
+tempData<-data.frame(
+  meses_tem=meses,
+   tem_max=c(
+    max(enero_tem),
+    max(febrero_tem),
+    max(marzo_tem),
+    max(abril_tem),
+    max(mayo_tem),
+    max(junio_tem),
+    max(julio_tem),
+    max(agosto_tem),
+    max(septiembre_tem),
+    max(octubre_tem),
+    max(noviembre_tem),
+    max(diciembre_tem)
+  ),
+  tem_min=c(
+    min(enero_tem),
+    min(febrero_tem),
+    min(marzo_tem),
+    min(abril_tem),
+    min(mayo_tem),
+    min(junio_tem),
+    min(julio_tem),
+    min(agosto_tem),
+    min(septiembre_tem),
+    min(octubre_tem),
+    min(noviembre_tem),
+    min(diciembre_tem)
+  ),
+  tem_mean=c(
+    mean(enero_tem),
+    mean(febrero_tem),
+    mean(marzo_tem),
+    mean(abril_tem),
+    mean(mayo_tem),
+    mean(junio_tem),
+    mean(julio_tem),
+    mean(agosto_tem),
+    mean(septiembre_tem),
+    mean(octubre_tem),
+    mean(noviembre_tem),
+    mean(diciembre_tem)
+  ),
+  tem_median=c(
+    median(enero_tem),
+    median(febrero_tem),
+    median(marzo_tem),
+    median(abril_tem),
+    median(mayo_tem),
+    median(junio_tem),
+    median(julio_tem),
+    median(agosto_tem),
+    median(septiembre_tem),
+    median(octubre_tem),
+    median(noviembre_tem),
+    median(diciembre_tem)
+  )
+)
+
+```
+
+
+#### Temperatura máxima, mínima, media  y mediana por mes 
+
+
+```{r}
+tempData
+```
+
+
+```{r}
+  pie(tempData$tem_mean,labels = tempData$meses_tem, main="Diagrama de temperatura media")
+```
+```{r}
+temp_mean_min <-sort(tempData$tem_mean,decreasing = F)[1]
+temp_mean_max <-sort(tempData$tem_mean,decreasing = T)[1]
+temp_mean_min_mes <-tempData[tempData$tem_mean==temp_mean_min,]$meses_tem
+temp_mean_max_mes <-tempData[tempData$tem_mean==temp_mean_max,]$meses_tem
+temp_mean_max_min  <-data.frame(
+   temp_mes=c(temp_mean_min_mes,temp_mean_max_mes),
+   temp_mean= c(temp_mean_min,temp_mean_max)
+  )
+
+```
+#### El mes con mayor temperatura media es **mayo** con 20.21841 y menor es **diciembre** con 13.50403
+```{r}
+temp_mean_max_min
+```
+
+
+
+
+```{r}
+
+
+  enero_rh<-Enero$RH[!is.nan(Enero$RH)]
+  febrero_rh<-febrero$RH[!is.nan(febrero$RH)]
+  marzo_rh<-marzo$RH[!is.nan(marzo$RH)]
+  abril_rh<-abril$RH[!is.nan(abril$RH)]
+  mayo_rh<-mayo$RH[!is.nan(mayo$RH)]
+  junio_rh<-junio$RH[!is.nan(junio$RH)]
+  julio_rh<-julio$RH[!is.nan(julio$RH)]
+  agosto_rh<-agosto$RH[!is.nan(agosto$RH)]
+  septiembre_rh<-septiembre$RH[!is.nan(septiembre$RH)]
+  octubre_rh<-octubre$RH[!is.nan(octubre$RH)]
+  noviembre_rh<-noviembre$RH[!is.nan(noviembre$RH)]
+  diciembre_rh<-diciembre$RH[!is.nan(diciembre$RH)]
+
+  
+ rhData<-data.frame(
+   rh_meses=meses,
+   rh_max=c(
+    max(enero_rh),
+    max(febrero_rh),
+    max(marzo_rh),
+    max(abril_rh),
+    max(mayo_rh),
+    max(junio_rh),
+    max(julio_rh),
+    max(agosto_rh),
+    max(septiembre_rh),
+    max(octubre_rh),
+    max(noviembre_rh),
+    max(diciembre_rh)
+  ),
+  rh_min=c(
+    min(enero_rh),
+    min(febrero_rh),
+    min(marzo_rh),
+    min(abril_rh),
+    min(mayo_rh),
+    min(junio_rh),
+    min(julio_rh),
+    min(agosto_rh),
+    min(septiembre_rh),
+    min(octubre_rh),
+    min(noviembre_rh),
+    min(diciembre_rh)
+  ),
+  rh_mean=c(
+    mean(enero_rh),
+    mean(febrero_rh),
+    mean(marzo_rh),
+    mean(abril_rh),
+    mean(mayo_rh),
+    mean(junio_rh),
+    mean(julio_rh),
+    mean(agosto_rh),
+    mean(septiembre_rh),
+    mean(octubre_rh),
+    mean(noviembre_rh),
+    mean(diciembre_rh)
+  ),
+  rh_median=c(
+    median(enero_rh),
+    median(febrero_rh),
+    median(marzo_rh),
+    median(abril_rh),
+    median(mayo_rh),
+    median(junio_rh),
+    median(julio_rh),
+    median(agosto_rh),
+    median(septiembre_rh),
+    median(octubre_rh),
+    median(noviembre_rh),
+    median(diciembre_rh)
+  )
+)
+    
+    
+
+```
+
+#### Humedad relativa máxima, mínima, media y mediana por mes 
+
+```{r}
+rhData
+ pie(rhData$rh_mean,labels = rhData$rh_meses, main="Diagrama de humedad relativa media")
+```
+
+```{r}
+
+rh_mean_min <-sort(rhData$rh_mean,decreasing = F)[1]
+rh_mean_max <-sort(rhData$rh_mean,decreasing = T)[1]
+rh_mean_min_mes <-rhData[rhData$rh_mean==rh_mean_min,]$rh_meses
+rh_mean_max_mes <-rhData[rhData$rh_mean==rh_mean_max,]$rh_meses
+mean_max_min  <-data.frame(
+   rh_mes=c(rh_mean_min_mes,rh_mean_max_mes),
+   rh_mean= c(rh_mean_min,rh_mean_max)
+  )
+
+```
+#### El mes con mayor humedad relativa media es **agosto** con 64.63483 y menor es **marzo** con 36.19630
+```{r}
+mean_max_min
+```
+
+
+
+
+### Gráficas de comparación
+####  Se lleva a cabo una comparación detallada entre la temperatura y la humedad relativa durante el mes de enero de 2022. Específicamente en la estación meteorológica UAM Xochimilco, durante el intervalo de 10:00 a 16:00 horas. El análisis se centra en comprender las variaciones y posibles correlaciones entre estos dos parámetros climáticos clave durante ese período y ubicación.
+
+```{r }
+Enero_10_16<-Enero[Enero$hora >='10:00' & Enero$hora<='16:00',]
+Enero_10_16_Estac<-Enero_10_16[Enero_10_16$cve_estac =='UAX',]
+#plot(Enero_10_16_Estac$TMP,Enero_10_16_Estac$RH,ylab = "Humedad relativa",xlab = #"Temperatura",main = "Análisis comparativo de temperatura y humedad relativa
+#durante Enero de 2022.
+#Estación UAM Xochimilco (10:00 - 16:00)")
+```
+
+
+```{r}
+ library(ggplot2)
+  df <- data.frame(x = Enero_10_16_Estac$TMP, y = Enero_10_16_Estac$RH)
+  ggplot(data = df, aes(x = Enero_10_16_Estac$TMP, y = Enero_10_16_Estac$RH)) + 
+    geom_point()+ 
+    theme(panel.background = element_rect(fill = "#67c9ff"))+ 
+  labs(title = "Análisis comparativo de temperatura y humedad relativa durante Enero de 2022.
+Estación UAM Xochimilco (10:00 - 16:00)")
+```
+
+#### En el diagrama se observa que a medida que la temperatura aumenta, la humedad relativa tiende a disminuir.
+
+
+```{r}
+boxplot(Enero_10_16_Estac$TMP, main="Diagrama de caja y bigote de Temperatura")
+boxplot(Enero_10_16_Estac$RH, main="Diagrama de caja y bigote de Humedad relativa")
+```
+
+#### Histograma
+```{r}
+hist(Enero_10_16_Estac$TMP, main="Histograma de Temperatura")
+hist(Enero_10_16_Estac$RH, main="Histograma de Humedad relativa")
+```
+
+
+
+
