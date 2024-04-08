@@ -370,6 +370,22 @@ Meteorología y Radiación Solar (REDMET) de 2022</h4>
 <div id="liga-httpsdatos.cdmx.gob.mxdatasetredmet" class="section level4">
 <h4><strong>Liga:</strong> <a href="https://datos.cdmx.gob.mx/dataset/redmet" class="uri">https://datos.cdmx.gob.mx/dataset/redmet</a></h4>
 </div>
+<div id="objetivo" class="section level3">
+<h3><strong>Objetivo</strong></h3>
+<p>El objetivo de este reporte es analizar y visualizar los datos
+recopilados por la Red de Meteorología y Radiación Solar (REDMET) para
+comprender las tendencias y variaciones en las condiciones
+meteorológicas y la radiación solar en una ubicación específica.</p>
+</div>
+<div id="justificación" class="section level3">
+<h3><strong>Justificación</strong></h3>
+<p>Los datos de la REDMET son esenciales para comprender y anticipar
+cambios en el clima y la radiación solar, lo que permite tomar
+decisiones informadas en sectores como la agricultura, la energía
+renovable y la planificación urbana. Su análisis en herramientas como R
+proporciona informacion clave para la gestión de recursos y la
+mitigación de riesgos asociados al cambio climático.</p>
+</div>
 <div id="diccionario-de-datos" class="section level3">
 <h3><strong>Diccionario de datos</strong></h3>
 <ul>
@@ -416,7 +432,7 @@ head(redmet)</code></pre>
 ## 245280  NaN NaN NaN</code></pre>
 </div>
 <div id="moda-de-temperatura-durante-el-año-2022" class="section level4">
-<h4>Moda de temperatura durante el año 2022</h4>
+<h4><strong>Moda de temperatura durante el año 2022</strong></h4>
 <pre class="r"><code>  moda&lt;-function(datos){
     return(sort(table(datos),decreasing = T)[1])
   }
@@ -479,7 +495,8 @@ head(redmet)</code></pre>
 </div>
 </div>
 <div id="análisis-de-temperatura-y-humedad-relativa-agrupado-por-mes" class="section level3">
-<h3>Análisis de temperatura y humedad relativa agrupado por mes</h3>
+<h3><strong>Análisis de temperatura y humedad relativa agrupado por
+mes</strong></h3>
 <p>Con el objetivo de comprender las variaciones mensuales y sus
 posibles correlaciones. La agrupación mensual de los datos permite una
 visión más clara de las tendencias a lo largo del año.</p>

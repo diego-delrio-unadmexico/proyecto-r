@@ -17,7 +17,11 @@ knitr::opts_chunk$set(echo = TRUE)
 #### **Apartado: ** Datos completos de la Red de Meteorología y Radiación Solar (REDMET) de 2022
 #### **Liga:** https://datos.cdmx.gob.mx/dataset/redmet 
 
+### **Objetivo**
+El objetivo de este reporte es analizar y visualizar los datos recopilados por la Red de Meteorología y Radiación Solar (REDMET) para comprender las tendencias y variaciones en las condiciones meteorológicas y la radiación solar en una ubicación específica.
 
+### **Justificación**
+Los datos de la REDMET son esenciales para comprender y anticipar cambios en el clima y la radiación solar, lo que permite tomar decisiones informadas en sectores como la agricultura, la energía renovable y la planificación urbana. Su análisis en herramientas como R proporciona informacion clave para la gestión de recursos y la mitigación de riesgos asociados al cambio climático.
 
 ### **Diccionario de datos**
 
@@ -43,7 +47,7 @@ head(redmet)
 tail(redmet)
 ```
 
-#### Moda de temperatura durante el año 2022
+#### **Moda de temperatura durante el año 2022**
 ```{r}
   moda<-function(datos){
     return(sort(table(datos),decreasing = T)[1])
@@ -93,7 +97,7 @@ boxplot(humedadRela)
 summary(humedadRela)
 ```
 
-### Análisis de temperatura y humedad relativa agrupado por mes
+### **Análisis de temperatura y humedad relativa agrupado por mes**
 Con el objetivo de comprender las variaciones mensuales y sus posibles correlaciones.
 La agrupación mensual de los datos permite una visión más clara de las tendencias a lo largo del año.
 
